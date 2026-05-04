@@ -20,7 +20,7 @@ const UserOrdersPage = () => {
   const fetchAndFilterOrders = async () => {
     try {
       // 2) Fetch ALL orders publicly
-      const resp = await axios.get('http://localhost:4000/api/orders');
+      const resp = await axios.get(`${import.meta.env.VITE_API_URL}/api/orders`);
       const allOrders = resp.data;
 
       // 3) Client‑side filter by customer.email
@@ -59,7 +59,7 @@ const UserOrdersPage = () => {
     setIsDetailModalOpen(false);
     setSelectedOrder(null);
   };
-  
+
   return (
     <div className={ordersPageStyles.page}>
       <div className={ordersPageStyles.container}>
@@ -133,7 +133,7 @@ const UserOrdersPage = () => {
                         <div className="text-emerald-100">
                           {order.items.length} items
                         </div>
-                      
+
                       </td>
                       <td className={`${ordersPageStyles.tableCell} font-medium`}>
                         ₹{order.total.toFixed(2)}
@@ -182,7 +182,7 @@ const UserOrdersPage = () => {
                 </button>
               </div>
               <p className="text-emerald-300 mt-1">
-                Ordered on {selectedOrder.date} 
+                Ordered on {selectedOrder.date}
               </p>
             </div>
 
@@ -245,7 +245,7 @@ const UserOrdersPage = () => {
                         >
                           {item.imageUrl ? (
                             <img
-                              src={`http://localhost:4000${item.imageUrl}`}
+                              src={`${import.meta.env.VITE_API_URL}${item.imageUrl}`}
                               alt={item.name}
                               className="w-16 h-16 object-cover rounded-lg mr-4"
                             />
@@ -329,7 +329,7 @@ const UserOrdersPage = () => {
                             {selectedOrder.status}
                           </span>
                         </div>
-                     
+
                       </div>
                     </div>
                   </div>

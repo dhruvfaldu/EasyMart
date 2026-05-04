@@ -27,13 +27,13 @@ export default function ListItemsPage() {
   useEffect(() => {
     const loadItems = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/api/items');
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/items`);
         const data = response.data;
 
         const withUrls = data.map(item => ({
           ...item,
           imageUrl: item.imageUrl
-            ? `http://localhost:4000${item.imageUrl}`
+            ? `${import.meta.env.VITE_API_URL}${item.imageUrl}`
             : null,
         }));
 
@@ -64,7 +64,7 @@ export default function ListItemsPage() {
     if (!window.confirm('Delete this product?')) return;
   
     try {
-      await axios.delete(`http://localhost:4000/api/items/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/items/${id}`);
       setItems(prev => prev.filter(i => i._id !== id));
       setFilteredItems(prev => prev.filter(i => i._id !== id));
     } catch (err) {

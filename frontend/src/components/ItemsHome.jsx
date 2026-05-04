@@ -19,7 +19,7 @@ const ItemsHome = () => {
   }, [activeCategory]);
 
   useEffect(() => {
-    axios.get("http://localhost:4000/api/items")
+    axios.get(`${import.meta.env.VITE_API_URL}/api/items`)
       .then(res => {
         const normalized = res.data.map(p => ({
           ...p,
@@ -200,7 +200,7 @@ const ItemsHome = () => {
                   >
                     <div className={itemsHomeStyles.imageContainer}>
                       <img
-                        src={`http://localhost:4000${product.imageUrl}`}
+                        src={`${import.meta.env.VITE_API_URL}${product.imageUrl}`}
                         alt={product.name}
                         className={itemsHomeStyles.productImage}
                         onError={(e) => {

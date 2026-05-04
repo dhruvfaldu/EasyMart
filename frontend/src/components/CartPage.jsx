@@ -15,10 +15,10 @@ const Cart = () => {
 
   // Helpers to pull fields from either item.* or item.product.*
   const getItemPrice = item => item.price ?? item.product?.price ?? 0;
-  const getItemName  = item => item.name  ?? item.product?.name  ?? 'Unnamed item';
+  const getItemName = item => item.name ?? item.product?.name ?? 'Unnamed item';
   const getItemImage = item => {
-    const path = item.image   ?? item.product?.imageUrl ?? '';
-    return path ? `http://localhost:4000${path}` : '';
+    const path = item.image ?? item.product?.imageUrl ?? '';
+    return path ? `${import.meta.env.VITE_API_URL}${path}` : '';
   };
 
   // Compute subtotal
@@ -75,10 +75,10 @@ const Cart = () => {
           <div className={cartStyles.cartItemsSection}>
             <div className={cartStyles.cartItemsGrid}>
               {cart.map(item => {
-                const id    = item.id;
-                const name  = getItemName(item);
+                const id = item.id;
+                const name = getItemName(item);
                 const price = getItemPrice(item);
-                const img   = getItemImage(item);
+                const img = getItemImage(item);
 
                 return (
                   <div key={id} className={cartStyles.cartItemCard}>

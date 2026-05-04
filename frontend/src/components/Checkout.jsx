@@ -69,7 +69,7 @@ const CheckoutPage = () => {
     try {
       const token = localStorage.getItem('authToken');
       const res = await axios.post(
-        'http://localhost:4000/api/orders',
+         `${import.meta.env.VITE_API_URL}/api/orders`,
         order,
         {
           headers: {
@@ -292,7 +292,7 @@ const CheckoutPage = () => {
                     <div className={checkoutStyles.cartImage}>
                       {item.imageUrl ? (
                         <img
-                          src={`http://localhost:4000${item.imageUrl}`}
+                          src={`${import.meta.env.VITE_API_URL}${item.imageUrl}`}
                           alt={item.name}
                           className="w-full h-full object-cover rounded"
                           onError={e => {

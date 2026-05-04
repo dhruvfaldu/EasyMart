@@ -18,7 +18,7 @@ const OrdersPage = () => {
 
   const fetchOrders = async () => {
     try {
-      const { data } = await axios.get('http://localhost:4000/api/orders');
+      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/orders`);
       setOrders(data);
       setFilteredOrders(data);
     } catch (error) {
@@ -56,7 +56,7 @@ const OrdersPage = () => {
   const updateOrderStatus = async (orderId, newStatus) => {
     try {
       await axios.put(
-        `http://localhost:4000/api/orders/${orderId}`,
+        `${import.meta.env.VITE_API_URL}/api/orders/${orderId}`,
         { status: newStatus }
       );
       setOrders(prev =>
@@ -258,7 +258,7 @@ const OrdersPage = () => {
                 </button>
               </div>
               <p className="text-gray-600 mt-1">
-                Ordered on {selectedOrder.date} 
+                Ordered on {selectedOrder.date}
               </p>
             </div>
 
@@ -351,7 +351,7 @@ const OrdersPage = () => {
                         >
                           {item.imageUrl ? (
                             <img
-                              src={`http://localhost:4000${item.imageUrl}`}
+                              src={`${import.meta.env.VITE_API_URL}${item.imageUrl}`}
                               alt={item.name}
                               className={styles.modalOrderImage}
                             />

@@ -50,7 +50,7 @@ export const CartProvider = ({ children }) => {
   const fetchCart = async () => {
     try {
       const { data } = await axios.get(
-        'http://localhost:4000/api/cart',
+        `${import.meta.env.VITE_API_URL}/api/cart`,
         {
           ...getAuthHeader(),
           withCredentials: true,   // if you’re relying on cookies too
@@ -72,7 +72,7 @@ export const CartProvider = ({ children }) => {
 
   const refreshCart = async () => {
     try {
-      const { data } = await axios.get('http://localhost:4000/api/cart', getAuthHeader());
+      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/cart`, getAuthHeader());
       const rawItems = Array.isArray(data)
         ? data
         : Array.isArray(data.items)
@@ -87,7 +87,7 @@ export const CartProvider = ({ children }) => {
   const addToCart = async (productId, quantity = 1) => {
     try {
       await axios.post(
-        'http://localhost:4000/api/cart',
+        `${import.meta.env.VITE_API_URL}/api/cart`,
         { productId, quantity },
         getAuthHeader()
       );
@@ -100,7 +100,7 @@ export const CartProvider = ({ children }) => {
   const updateQuantity = async (lineId, quantity) => {
     try {
       await axios.put(
-        `http://localhost:4000/api/cart/${lineId}`,
+        `${import.meta.env.VITE_API_URL}/api/cart/${lineId}`,
         { quantity },
         getAuthHeader()
       );
@@ -112,7 +112,7 @@ export const CartProvider = ({ children }) => {
 
   const removeFromCart = async (lineId) => {
     try {
-      await axios.delete(`http://localhost:4000/api/cart/${lineId}`, getAuthHeader());
+      await axios.delete( `${import.meta.env.VITE_API_URL}/api/cart/${lineId}`, getAuthHeader());
       await refreshCart();
     } catch (err) {
       console.error('Error removing from cart:', err);
@@ -121,7 +121,7 @@ export const CartProvider = ({ children }) => {
 
   const clearCart = async () => {
     try {
-      await axios.post('http://localhost:4000/api/cart/clear', {}, getAuthHeader());
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/cart/clear`, {}, getAuthHeader());
       setCart([]);
     } catch (err) {
       console.error('Error clearing cart:', err);
