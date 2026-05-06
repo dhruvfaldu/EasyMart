@@ -1,12 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { FaShoppingCart, FaChevronRight, FaMinus, FaPlus, FaThList } from "react-icons/fa";
 import { categories } from "../assets/dummyData";
+import { groceryData } from "../assets/dummyDataItem";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../CartContext";
 import BannerHome from "../components/BannerHome";
 import { itemsHomeStyles } from "../assets/dummyStyles.js";
 
 import axios from 'axios'
+
+const localImageMap = {};
+groceryData.forEach(category => {
+  if (category.items) {
+    category.items.forEach(item => {
+      localImageMap[item.name] = item.image;
+    });
+  }
+});
+
+const getImageUrl = (product) => {
+  if (localImageMap[product.name]) {
+    return localImageMap[product.name];
+  }
+  const rawImage = product.imageUrl || product.image;
+  if (!rawImage) return '';
+  if (rawImage.startsWith('http')) return rawImage;
+  if (rawImage.startsWith('/')) return `${import.meta.env.VITE_API_URL}${rawImage}`;
+  return `${import.meta.env.VITE_API_URL}/uploads/${rawImage}`;
+};
 
 const ItemsHome = () => {
   const [products, setProducts] = useState([]);
@@ -200,7 +221,7 @@ const ItemsHome = () => {
                   >
                     <div className={itemsHomeStyles.imageContainer}>
                       <img
-                        src={`${import.meta.env.VITE_API_URL}${product.imageUrl}`}
+                        src={getImageUrl(product)}
                         alt={product.name}
                         className={itemsHomeStyles.productImage}
                         onError={(e) => {

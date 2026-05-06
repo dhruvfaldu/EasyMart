@@ -9,6 +9,26 @@ import { itemsPageStyles } from '../assets/dummyStyles';
 // Backend base URL
 const BACKEND_URL = import.meta.env.VITE_API_URL;
 
+const localImageMap = {};
+groceryData.forEach(category => {
+  if (category.items) {
+    category.items.forEach(item => {
+      localImageMap[item.name] = item.image;
+    });
+  }
+});
+
+const getImageUrl = (product) => {
+  if (localImageMap[product.name]) {
+    return localImageMap[product.name];
+  }
+  const rawImage = product.imageUrl || product.image;
+  if (!rawImage) return '';
+  if (rawImage.startsWith('http')) return rawImage;
+  if (rawImage.startsWith('/')) return `${BACKEND_URL}${rawImage}`;
+  return `${BACKEND_URL}/uploads/${rawImage}`;
+};
+
 const ProductCard = ({ item }) => {
   const { addToCart, removeFromCart, updateQuantity, cart } = useCart();
 
@@ -24,13 +44,7 @@ const ProductCard = ({ item }) => {
     else updateQuantity(lineId, quantity - 1);
   };
 
-  const rawImage = item.image || item.imageUrl;
-  let imgSrc = item.image;
-  if (rawImage) {
-    if (rawImage.startsWith('http')) imgSrc = rawImage;
-    else if (rawImage.startsWith('/')) imgSrc = `${BACKEND_URL}${rawImage}`;
-    else imgSrc = `${BACKEND_URL}/uploads/${rawImage}`;
-  }
+  const imgSrc = getImageUrl(item);
 
   return (
     <div className={itemsPageStyles.productCard}>
